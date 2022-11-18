@@ -20,3 +20,17 @@
 * 基于 Ploygon，通过将经过Base64编码的矢量图上传保存到链上，真正的实现区中心化 NFT
 1. 获取 solc 版本接口超时，可参考[Failed to obtain list of solc versions.](https://github.com/NomicFoundation/hardhat/issues/2684#issuecomment-1177001254)
 2. 申请 POLYGONSCANAPI_KEY , 利用开发接口，快速进行 Verify & Publish Contract Source Code (正常智能合约部署到链上，只能看到opcode， bytecode)，通过开发接口，可以快速进行源码及ABI发布
+
+## DeFi 协议
+
+### 流动性协议之[Uniswap V3](https://uniswap.org/blog/uniswap-v3)
+* Curve
+
+### 借贷协议之[Compound](https://compound.finance/)
+* Other: MakerDAO 和 Aave
+
+## 深入理解 EVM
+
+### 认识 opcode
+
+### Geth——用Go来做以太坊开发
