@@ -2,6 +2,10 @@ require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-etherscan");
 require("dotenv").config();
 
+// open node_modules/@nomiclabs/hardhat-etherscan/dist/src/solc/version.js 
+// replace COMPILERS_LIST_URL = https://solc-bin.ethereum.org/bin/list.json
+// COMPILERS_LIST_URL = http://localhost:443/list.json
+
 /** @type import('hardhat/config').HardhatUserConfig */
 
 const GOERLI_URL = process.env.ALCHEMY_GOERLI_URL;
