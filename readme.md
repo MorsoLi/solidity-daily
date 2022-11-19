@@ -9,14 +9,14 @@
 6. 智能合约安全审计
 6. 主网发布
 
-### [BuyCoffee](./BuyCoffee/contracts/BuyCoffee.sol)
+### [BuyCoffee](./DApp/contracts/BuyCoffee.sol)
 * 一个向个人捐赠的应用，主要实现三个函数
 1. getMemos 获取捐赠人列表
 2. buyCoffee 捐赠行为
 3. withdrawTips 提取合约余额
 4. TODO: 基于 Vercel + Next.js 上线服务
 
-### [OnchainNFT](./BuyCoffee/contracts/MyToken.sol)
+### [OnchainNFT](./DApp/contracts/MyToken.sol)
 * 基于 Ploygon，通过将经过Base64编码的矢量图上传保存到链上，真正的实现区中心化 NFT
 1. 获取 solc 版本接口超时，可参考[Failed to obtain list of solc versions.](https://github.com/NomicFoundation/hardhat/issues/2684#issuecomment-1177001254)
 2. 申请 POLYGONSCANAPI_KEY , 利用开发接口，快速进行 Verify & Publish Contract Source Code (正常智能合约部署到链上，只能看到opcode， bytecode)，通过开发接口，可以快速进行源码及ABI发布
@@ -34,3 +34,6 @@
 ### 认识 opcode
 
 ### Geth——用Go来做以太坊开发
+
+## MEV
+* [MEV了解](./MEV/MEV%E4%BA%86%E8%A7%A3.md)
