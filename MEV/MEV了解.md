@@ -13,15 +13,23 @@
 * 第三方托管 (escrow)：负责为提议的执行负载提供冗余的数据可用性的一方 (中继信任其提供的数据隐私性)
 
 ### 什么是MEV
-* MEV 是 Miner Extractable Value 的缩写，即矿工可提取价值，矿工们会根据 gas 费用的高低来决定交易顺序，从而获取更大的利润；MEV 的产生是因为交易被发送到网络到交易信息被打包至区块之间存在延迟。当前在MEV的分配链条上已经出现的明确的分工，不仅仅最初简单的矿工所属，而且以太坊在从POW转向POS的过程中，划分的更加专业。
+* MEV 是 Miner Extractable Value 的缩写，即矿工可提取价值，矿工们会根据 gas 费用的高低来决定交易顺序，从而获取更大的利润；MEV 的产生是因为交易被发送到网络到交易信息被打包至区块之间存在延迟。当前在MEV的分配链条上已经出现的明确的分工，不仅仅最初简单的矿工所属，而且以太坊在从POW转向POS的过程中，EVM的分配方式也发生新的变化。
 
 ### POW MEV
 ![](./mev-pow.png)
 
-* 交易从发送到网络到交易信息被打包至区块之间有三种路径
+* 交易从发送到网络到交易信息被打包至区块之间有三种路径, 显然方式一和方式三延迟更低，所以有了套利空间存在。特别是方式三，就是套利机器人的重灾区；常见 front-running，back-running，sandwiching。
 1. 钱包配置私有节点，交易发送到私有交易池，专门矿工打包上链（user private order flow）
 2. 使用公共节点，交易发送到公共交易池，矿工竞争打包上链（user public order flow）
 3. 搜索者获取有价值的交易，经过 FlashBots的Auction，发送给中继，中继将其路由自己合作的矿工，打包上链（searcher order flow）
+
+* 生态上的 searcher 一般有以下几类
+1. 寻求快速、无风险访问区块空间的以太坊机器人运营商（例如，套利和清算机器人）
+2. 寻求交易抢先保护的以太坊用户（Uniswap 交易者）
+3. 具有高级用例的以太坊 Dapps，例如帐户抽象或无气体交易（tornado.cash 和 misxX)
+
+### Flashboots
+
 
 ### POS MEV
 ![](./mwv-pos.png)
@@ -32,6 +40,6 @@
 ![](./mev-supply-chain.png)
 
 ### 参考链接
-1. [Welcome to Flashbots](https://docs.flashbots.net/)
+1. [Welcome to Flashbots](https://docs.flashbots.net/flashbots-auction/overview)
 2. [用于合并的 Flashbots 架构MEV-Boost及其实现计划](https://www.ethereum.cn/Technology/mev-boost-merge-ready-flashbots-architecture)
 3. [Order Flows: Kingmaker of the Block Builders ](https://noxx.substack.com/p/order-flows-kingmaker-of-the-block)
