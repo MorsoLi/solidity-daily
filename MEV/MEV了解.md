@@ -19,14 +19,14 @@
 ![](./mev-pow.png)
 
 * 交易从发送到网络到交易信息被打包至区块之间有三种路径, 显然方式一和方式三延迟更低，所以有了套利空间存在。特别是方式三，就是套利机器人的重灾区；常见 front-running，back-running，sandwiching。
-1. 钱包配置私有节点，交易发送到私有交易池，专门矿工打包上链（user private order flow）
-2. 使用公共节点，交易发送到公共交易池，矿工竞争打包上链（user public order flow）
-3. 搜索者获取有价值的交易，经过 FlashBots的Auction，发送给中继，中继将其路由自己合作的矿工，打包上链（searcher order flow）
+方式一. 钱包配置私有节点，交易发送到私有交易池，专门矿工打包上链（user private order flow）
+方式二. 使用公共节点，交易发送到公共交易池，矿工竞争打包上链（user public order flow）
+方式三. 搜索者获取有价值的交易，经过 FlashBots的Auction，发送给中继，中继将其路由自己合作的矿工，打包上链（searcher order flow）
 
 * 生态上的 searcher 一般有以下几类
 1. 寻求快速、无风险访问区块空间的以太坊机器人运营商（例如，套利和清算机器人）
 2. 寻求交易抢先保护的以太坊用户（Uniswap 交易者）
-3. 具有高级用例的以太坊 Dapps，例如帐户抽象或无气体交易（tornado.cash 和 misxX)
+3. 具有高级用例的以太坊 Dapps，例如 Tornado.cash
 
 ### Flashboots
 
