@@ -28,13 +28,12 @@
 2. 寻求交易抢先保护的以太坊用户（Uniswap 交易者）
 3. 具有高级用例的以太坊 Dapps，例如 Tornado.cash
 
-### Flashboots
-
-
 ### POS MEV
 ![](./mwv-pos.png)
 
 * PBS（Proposer Builder Separation）提议构建者分离
+
+### Flashboots
 
 ### MEV supply chain
 ![](./mev-supply-chain.png)
