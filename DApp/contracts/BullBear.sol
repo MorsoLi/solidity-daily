@@ -19,10 +19,17 @@ import "@chainlink/contracts/src/v0.8/KeeperCompatible.sol";
 // and will not work on any test or main livenets.
 import "hardhat/console.sol";
 
-contract BullBear is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
+contract BullBear is ERC721, ERC721Enumerable, ERC721URIStorage, KeeperCompatibleInterface, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
+    // https://docs.chain.link/data-feeds/price-feeds/addresses#Goerli%20Testnet
+    // ETH/USD 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
+    AggregatorV3Interface public pricefeed;
+
+    uint public interval;
+    uint public lastTimeStamp;
+    int256 public currentPrice;
 
     // IPFS URIs for the dynamic nft graphics/metadata.
     // NOTE: These connect to my IPFS Companion node.
@@ -38,7 +45,14 @@ contract BullBear is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         "https://ipfs.io/ipfs/QmbKhBXVWmwrYsTPFYfroR2N7NAekAMxHUVg2CWks7i9qj?filename=simple_bear.json"
     ];
 
-    constructor() ERC721("Bull&Bear", "BBTK") {}
+    event TokensUpdated(string marketTrend);
+
+    constructor() ERC721("Bull&Bear", "BBTK") {
+        interval = 15;
+        lastTimeStamp = block.timestamp;
+        pricefeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
+        currentPrice = getLatestPrice();
+    }
 
     function safeMint(address to) public {
         // Current counter value will be the minted token's token ID.
@@ -60,6 +74,75 @@ contract BullBear is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
             " and assigned token url: ",
             defaultUri
         );
+    }
+
+    function checkUpkeep(bytes calldata) external view returns (bool upkeepNeeded, bytes memory performData){
+        upkeepNeeded = (block.timestamp-lastTimeStamp) > interval;
+        return (upkeepNeeded, "");
+    }
+
+    function performUpkeep(bytes calldata) external {
+        if ((block.timestamp-lastTimeStamp)>interval){
+            lastTimeStamp = block.timestamp;
+            int latestPrice = getLatestPrice();
+            if (latestPrice == currentPrice){
+                console.log("No change -> returning!");
+                return;
+            }
+            if (latestPrice < currentPrice){
+                console.log("It's Bear!");
+                updateAllTokenUris("bear");
+            }
+            if (latestPrice > currentPrice){
+                console.log("It's Bull!");
+                updateAllTokenUris("bull");
+            }
+            currentPrice = latestPrice;
+        } else{
+            console.log("Interval not upping!");
+            return;
+        }
+    }
+
+    function setPriceFeed(address newFeed) public onlyOwner{
+        pricefeed = AggregatorV3Interface(newFeed);
+    }
+
+    function setInterval(uint256 newInterval) public onlyOwner{
+        interval = newInterval;
+    }
+
+    function getLatestPrice() public view returns (int256) {
+        (
+            /*uint80 roundID*/,
+            int price,
+            /*uint startedAt*/,
+            /*uint timeStamp*/,
+            /*uint80 answeredInRound*/
+        ) = pricefeed.latestRoundData();
+
+        return price;
+    }
+
+    function updateAllTokenUris(string memory trend) internal {
+        if (compareStrings("bear", trend)) {
+            console.log(" UPDATING TOKEN URIS WITH ", "bear", trend);
+            for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
+                _setTokenURI(i, bearUrisIpfs[0]);
+            } 
+            
+        } else {     
+            console.log(" UPDATING TOKEN URIS WITH ", "bull", trend);
+
+            for (uint i = 0; i < _tokenIdCounter.current() ; i++) {
+                _setTokenURI(i, bullUrisIpfs[0]);
+            }  
+        }   
+        emit TokensUpdated(trend);
+    }
+
+    function compareStrings(string memory a, string memory b) internal pure returns (bool){
+        return (keccak256(abi.encodePacked((a)))) == keccak256(abi.encodePacked((b)));
     }
 
     function _beforeTokenTransfer(
