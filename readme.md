@@ -28,8 +28,9 @@
 
 ### [BullBear](./DApp/contracts/BullBear.sol)
 * 基于 chainlink 预言机获取实时资产价格，来自动更新nft（牛熊卡通形象）状态 (chainlink的Data Feed获取资产，Keeper实现合约自动化执行)
-1. `npx hardhat run scripts/deploy-bear.js --network goerli`
-2. [合约地址](https://goerli.etherscan.io/address/0xdd044eabe7adfd7987f942439be75ef1d7ab2ecf)
+1. [MockAggregator](./DApp/contracts/MockAggregator.sol): 本地测试部署的 Mock Price Feed
+2. `npx hardhat run scripts/deploy-bear.js --network goerli`
+3. [合约地址](https://goerli.etherscan.io/address/0xdd044eabe7adfd7987f942439be75ef1d7ab2ecf)
 
 ## DeFi 协议
 
